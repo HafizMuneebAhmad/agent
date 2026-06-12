@@ -1,0 +1,83 @@
+[
+  {
+    "employee_id": "EMP-001",
+    "name": "Arsalan Khan",
+    "role": "Cloud Engineer",
+    "meeting_hours_per_week": 22,
+    "focus_hours_per_week": 10,
+    "preferred_learning_slot": "Morning",
+    "calendar": [
+      {"day": "Monday", "time": "09:00 - 10:00", "status": "Free", "activity": "Focus Period"},
+      {"day": "Monday", "time": "10:00 - 12:00", "status": "Busy", "activity": "Team Sync Meeting"},
+      {"day": "Monday", "time": "13:00 - 15:00", "status": "Busy", "activity": "Client Architecture Review"},
+      {"day": "Monday", "time": "15:00 - 17:00", "status": "Free", "activity": "Development Work"},
+      {"day": "Tuesday", "time": "09:00 - 11:00", "status": "Busy", "activity": "Sprint Planning"},
+      {"day": "Tuesday", "time": "11:00 - 12:00", "status": "Free", "activity": "Focus Period"},
+      {"day": "Tuesday", "time": "13:00 - 15:00", "status": "Free", "activity": "Deep Work"},
+      {"day": "Tuesday", "time": "15:00 - 17:00", "status": "Busy", "activity": "Standup & Sync"},
+      {"day": "Wednesday", "time": "09:00 - 12:00", "status": "Busy", "activity": "Incident Review / Deploy"},
+      {"day": "Wednesday", "time": "13:00 - 17:00", "status": "Free", "activity": "Focus Period"},
+      {"day": "Thursday", "time": "09:00 - 10:30", "status": "Free", "activity": "Focus Period"},
+      {"day": "Thursday", "time": "10:30 - 12:00", "status": "Busy", "activity": "All Hands Meet"},
+      {"day": "Thursday", "time": "13:00 - 15:00", "status": "Busy", "activity": "1-on-1 Sessions"},
+      {"day": "Thursday", "time": "15:00 - 17:00", "status": "Free", "activity": "Development Work"},
+      {"day": "Friday", "time": "09:00 - 11:00", "status": "Busy", "activity": "Retrospective Meeting"},
+      {"day": "Friday", "time": "11:00 - 12:00", "status": "Free", "activity": "Focus Period"},
+      {"day": "Friday", "time": "13:00 - 17:00", "status": "Free", "activity": "Weekly Wrap-up"}
+    ]
+  },
+  {
+    "employee_id": "EMP-002",
+    "name": "Zainab Fatima",
+    "role": "DevOps Engineer",
+    "meeting_hours_per_week": 14,
+    "focus_hours_per_week": 18,
+    "preferred_learning_slot": "Afternoon",
+    "calendar": [
+      {"day": "Monday", "time": "09:00 - 10:30", "status": "Busy", "activity": "Infrastructure Sync"},
+      {"day": "Monday", "time": "10:30 - 12:00", "status": "Free", "activity": "Focus Period"},
+      {"day": "Monday", "time": "13:00 - 15:00", "status": "Free", "activity": "CI/CD Debugging"},
+      {"day": "Monday", "time": "15:00 - 17:00", "status": "Busy", "activity": "DevOps Board Review"},
+      {"day": "Tuesday", "time": "09:00 - 12:00", "status": "Free", "activity": "Automation Scripts"},
+      {"day": "Tuesday", "time": "13:00 - 14:30", "status": "Busy", "activity": "Security Audit"},
+      {"day": "Tuesday", "time": "14:30 - 17:00", "status": "Free", "activity": "Focus Period"},
+      {"day": "Wednesday", "time": "09:00 - 11:00", "status": "Busy", "activity": "Kubernetes Cluster Upgrade"},
+      {"day": "Wednesday", "time": "11:00 - 12:00", "status": "Free", "activity": "Focus Period"},
+      {"day": "Wednesday", "time": "13:00 - 17:00", "status": "Free", "activity": "No-Meeting Wednesday Focus"},
+      {"day": "Thursday", "time": "09:00 - 10:00", "status": "Busy", "activity": "Daily Standup"},
+      {"day": "Thursday", "time": "10:00 - 12:00", "status": "Free", "activity": "Deployment Configs"},
+      {"day": "Thursday", "time": "13:00 - 15:00", "status": "Busy", "activity": "Cross-Team Sync"},
+      {"day": "Thursday", "time": "15:00 - 17:00", "status": "Free", "activity": "Focus Period"},
+      {"day": "Friday", "time": "09:00 - 11:00", "status": "Free", "activity": "Focus Period"},
+      {"day": "Friday", "time": "11:00 - 12:30", "status": "Busy", "activity": "Post-Mortem Review"},
+      {"day": "Friday", "time": "13:30 - 17:00", "status": "Free", "activity": "Focus Period"}
+    ]
+  },
+  {
+    "employee_id": "EMP-003",
+    "name": "Hamza Ali",
+    "role": "Data Engineer",
+    "meeting_hours_per_week": 18,
+    "focus_hours_per_week": 14,
+    "preferred_learning_slot": "Morning",
+    "calendar": [
+      {"day": "Monday", "time": "09:00 - 11:00", "status": "Free", "activity": "Focus Period"},
+      {"day": "Monday", "time": "11:00 - 12:00", "status": "Busy", "activity": "Data Platform Standup"},
+      {"day": "Monday", "time": "13:00 - 16:00", "status": "Busy", "activity": "Pipeline Refactoring Session"},
+      {"day": "Monday", "time": "16:00 - 17:00", "status": "Free", "activity": "Daily Log Check"},
+      {"day": "Tuesday", "time": "09:00 - 12:00", "status": "Busy", "activity": "Synapse Architecture Meeting"},
+      {"day": "Tuesday", "time": "13:00 - 15:00", "status": "Free", "activity": "Focus Period"},
+      {"day": "Tuesday", "time": "15:00 - 17:00", "status": "Busy", "activity": "DB Maintenance Sync"},
+      {"day": "Wednesday", "time": "09:00 - 12:00", "status": "Free", "activity": "Focus Period"},
+      {"day": "Wednesday", "time": "13:00 - 15:00", "status": "Busy", "activity": "Client Reporting"},
+      {"day": "Wednesday", "time": "15:00 - 17:00", "status": "Free", "activity": "Data Validation scripts"},
+      {"day": "Thursday", "time": "09:00 - 11:00", "status": "Busy", "activity": "Sprint Planning Meeting"},
+      {"day": "Thursday", "time": "11:00 - 12:00", "status": "Free", "activity": "Focus Period"},
+      {"day": "Thursday", "time": "13:00 - 15:00", "status": "Busy", "activity": "ETL Tool Evaluation"},
+      {"day": "Thursday", "time": "15:00 - 17:00", "status": "Free", "activity": "Focus Period"},
+      {"day": "Friday", "time": "09:00 - 11:00", "status": "Busy", "activity": "Retrospective & Demo"},
+      {"day": "Friday", "time": "11:00 - 12:00", "status": "Free", "activity": "Focus Period"},
+      {"day": "Friday", "time": "13:00 - 17:00", "status": "Free", "activity": "Focus Period"}
+    ]
+  }
+]

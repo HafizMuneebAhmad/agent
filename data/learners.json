@@ -1,0 +1,134 @@
+[
+  {
+    "learner_id": "L-1001",
+    "employee_id": "EMP-001",
+    "name": "Arsalan Khan",
+    "role": "Cloud Engineer",
+    "target_certification": "AZ-204",
+    "skills_assessment": [
+      {
+        "skill": "API Development",
+        "current": 3,
+        "target": 4
+      },
+      {
+        "skill": "Azure Functions",
+        "current": 2,
+        "target": 4
+      },
+      {
+        "skill": "Azure Storage",
+        "current": 3,
+        "target": 4
+      },
+      {
+        "skill": "Cosmos DB",
+        "current": 1,
+        "target": 3
+      },
+      {
+        "skill": "App Service",
+        "current": 4,
+        "target": 4
+      },
+      {
+        "skill": "Azure Security",
+        "current": 2,
+        "target": 4
+      }
+    ],
+    "learning_log": {
+      "hours_studied": 12,
+      "practice_score_avg": 65,
+      "status": "In Progress"
+    }
+  },
+  {
+    "learner_id": "L-1002",
+    "employee_id": "EMP-002",
+    "name": "Zainab Fatima",
+    "role": "DevOps Engineer",
+    "target_certification": "AZ-400",
+    "skills_assessment": [
+      {
+        "skill": "CI/CD Pipelines",
+        "current": 4,
+        "target": 5
+      },
+      {
+        "skill": "Monitoring & Logging",
+        "current": 3,
+        "target": 4
+      },
+      {
+        "skill": "GitHub Actions",
+        "current": 4,
+        "target": 4
+      },
+      {
+        "skill": "Infrastructure as Code",
+        "current": 2,
+        "target": 4
+      },
+      {
+        "skill": "Containerization",
+        "current": 3,
+        "target": 4
+      },
+      {
+        "skill": "Azure Pipelines",
+        "current": 4,
+        "target": 4
+      }
+    ],
+    "learning_log": {
+      "hours_studied": 30,
+      "practice_score_avg": 0,
+      "status": "In Progress"
+    }
+  },
+  {
+    "learner_id": "L-1003",
+    "employee_id": "EMP-003",
+    "name": "Hamza Ali",
+    "role": "Data Engineer",
+    "target_certification": "DP-203",
+    "skills_assessment": [
+      {
+        "skill": "Data Warehousing",
+        "current": 3,
+        "target": 4
+      },
+      {
+        "skill": "Data Lakes",
+        "current": 4,
+        "target": 4
+      },
+      {
+        "skill": "Azure Synapse",
+        "current": 2,
+        "target": 4
+      },
+      {
+        "skill": "Azure Databricks",
+        "current": 2,
+        "target": 4
+      },
+      {
+        "skill": "Stream Analytics",
+        "current": 3,
+        "target": 4
+      },
+      {
+        "skill": "Data Factory",
+        "current": 4,
+        "target": 4
+      }
+    ],
+    "learning_log": {
+      "hours_studied": 8,
+      "practice_score_avg": 55,
+      "status": "In Progress"
+    }
+  }
+]

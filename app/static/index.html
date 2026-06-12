@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus Learning Orchestrator | Microsoft Foundry Agents</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo-container">
+      <div class="logo-icon">N</div>
+      <div class="logo-text">
+        <h1>Nexus Learning Orchestrator</h1>
+        <p>Enterprise Multi-Agent Workforce Optimizer</p>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav-tabs">
+      <button class="tab-btn active" data-tab="learner-space">Learner Workspace</button>
+      <button class="tab-btn" data-tab="assessment-center">Assessment Center</button>
+      <button class="tab-btn" data-tab="manager-portal">Manager Analytics Hub</button>
+    </nav>
+
+    <!-- Developer Live API Settings -->
+    <div class="dev-controls">
+      <div class="mode-toggle">
+        <input type="checkbox" id="api-toggle" style="cursor: pointer;">
+        <label for="api-toggle" style="cursor: pointer; font-weight: 600; color: var(--text-secondary);">Live API Mode</label>
+      </div>
+      <input type="password" id="api-key-input" placeholder="Enter OpenAI API Key..." style="display: none; background: var(--bg-tertiary); border: 1px solid var(--border-color); color: #fff; padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.8rem; outline: none; width: 180px;">
+    </div>
+  </header>
+
+  <!-- Main Grid Dashboard -->
+  <main>
+    
+    <!-- Tab 1: Learner Space -->
+    <div id="learner-space" class="tab-content active">
+      <div class="dashboard-grid">
+        
+        <!-- Left Panel: Profile Selection & Inputs -->
+        <div class="glass-panel" style="display: flex; flex-direction: column; gap: 1.5rem;">
+          <div>
+            <h2 style="font-size: 1.15rem; margin-bottom: 0.5rem; font-weight: 700;">Learner Profiles</h2>
+            <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.4;">Select a synthetic employee profile mapping to organizational roles to configure their optimized roadmap.</p>
+            <div id="profiles-list" class="profiles-list">
+              <!-- JS rendered profiles -->
+            </div>
+          </div>
+
+          <div style="border-top: 1px solid var(--border-color); padding-top: 1.25rem;">
+            <div class="control-group">
+              <label for="certification-select">Target Certification</label>
+              <select id="certification-select" class="custom-select">
+                <!-- JS populated options -->
+              </select>
+            </div>
+
+            <button id="optimize-btn" class="btn-primary">Optimize & Curate Plan</button>
+          </div>
+
+          <!-- Semantic Skill Gaps (Fabric IQ View) -->
+          <div style="border-top: 1px solid var(--border-color); padding-top: 1.25rem;">
+            <h3 style="font-size: 0.95rem; margin-bottom: 0.5rem; font-weight: 700;" class="text-gradient">Fabric IQ Semantic Skills Map</h3>
+            <table class="semantic-table">
+              <thead>
+                <tr>
+                  <th>Target Skill</th>
+                  <th>Proficiency</th>
+                  <th>Gap</th>
+                </tr>
+              </thead>
+              <tbody id="skill-gap-table-body">
+                <!-- JS rendered skill gaps -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Right Panel: Agent Orchestrator Visualizer & Output -->
+        <div class="workspace-container">
+          
+          <!-- Human-in-the-Loop Dialog Container -->
+          <div id="hitl-checkpoint-container" class="hitl-alert-container" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <h3 style="font-size: 0.95rem; font-weight: 700; color: var(--color-primary); margin: 0; display: flex; align-items: center; gap: 0.5rem;">
+                <span>🛑</span> Microsoft Agent Framework - Human Interrupt Required
+              </h3>
+              <span class="badge badge-in-progress" id="hitl-agent-badge">Curator Agent</span>
+            </div>
+            <p id="hitl-message" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4; margin: 0;">
+              Curator Agent completed outlining the AZ-204 syllabus. Please review and provide feedback.
+            </p>
+            <textarea id="hitl-feedback-input" class="hitl-feedback-input" placeholder="Type comments/adjustments here (optional)..."></textarea>
+            <div class="hitl-actions">
+              <button id="hitl-reject-btn" class="btn-reject">Request Adjustment</button>
+              <button id="hitl-approve-btn" class="btn-approve">Approve & Resume</button>
+            </div>
+          </div>
+
+          <!-- Agent Console & Visual Telemetry Tracing -->
+          <div class="glass-panel" style="padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem;">
+            <div class="terminal-header">
+              <div style="display: flex; align-items: center;">
+                <span class="terminal-dot"></span>
+                <span class="terminal-dot"></span>
+                <span class="terminal-dot"></span>
+                <div style="margin-left: 0.75rem; display: flex; gap: 0.75rem; border-left: 1px solid var(--border-color); padding-left: 0.75rem;">
+                  <button id="console-log-tab" class="tab-btn active" style="font-size: 0.75rem; padding: 0.2rem 0.6rem; border-radius: 6px;">Standard Console</button>
+                  <button id="console-trace-tab" class="tab-btn" style="font-size: 0.75rem; padding: 0.2rem 0.6rem; border-radius: 6px;">Visual Trace Tree (MAF DevUI)</button>
+                </div>
+              </div>
+              <div id="execution-status" style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted);">Status: STANDBY</div>
+            </div>
+
+            <!-- Tab 1: Plain Text Terminal -->
+            <div id="terminal-body" class="agent-terminal">
+              <div class="text-muted">> System Ready. Select 'Optimize & Curate Plan' to orchestrate.</div>
+            </div>
+
+            <!-- Tab 2: Visual Node Graph (OpenTelemetry Trace tree) -->
+            <div id="trace-graph-body" class="trace-graph-container" style="display: none;">
+              <div class="text-muted" style="font-family: monospace; font-size: 0.8rem;">No execution traces available. Run optimizer to trace execution spans.</div>
+            </div>
+          </div>
+
+          <!-- Plan Outputs (Curator, Planner, Engagement) -->
+          <div id="plan-section" style="display: none;">
+            <div class="plan-results-grid">
+              
+              <!-- Curated Roadmap & Citations -->
+              <div class="glass-panel" style="display: flex; flex-direction: column; gap: 1.25rem;">
+                <div>
+                  <h3 style="font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem;" class="text-gradient">Curator Syllabus (Foundry IQ)</h3>
+                  <div id="curator-outline" style="font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary);">
+                    <!-- JS Curator output -->
+                  </div>
+                </div>
+
+                <div class="evidence-panel" style="padding-left: 1rem; border-left: 3px solid var(--color-primary);">
+                  <h4 style="font-size: 0.9rem; font-weight: 700;">Grounded Citations</h4>
+                  <div id="citations-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                    <!-- JS citations -->
+                  </div>
+                </div>
+              </div>
+
+              <!-- Planner Milestones & Work IQ Calendar -->
+              <div class="glass-panel" style="display: flex; flex-direction: column; gap: 1.25rem;">
+                <div>
+                  <h3 style="font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem;" class="text-gradient">Study Plan Milestones (Planner)</h3>
+                  <ul id="milestones-list" style="padding-left: 1.2rem; font-size: 0.85rem; line-height: 1.5; color: var(--text-secondary);">
+                    <!-- JS Planner output -->
+                  </ul>
+                </div>
+
+                <div style="border-top: 1px solid var(--border-color); padding-top: 1rem;">
+                  <h3 style="font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem;" class="text-gradient">Adaptive Calendar (Work IQ)</h3>
+                  <p id="work-strategy-text" style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.5rem;"></p>
+                  <p id="reminder-info" style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;"></p>
+                  
+                  <div class="calendar-card">
+                    <div id="calendar-slots" class="calendar-slot-list">
+                      <!-- JS Work IQ Calendar slots -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Tab 2: Assessment Center -->
+    <div id="assessment-center" class="tab-content">
+      <div style="max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.5rem;">
+        
+        <!-- Welcome Card -->
+        <div class="glass-panel">
+          <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;">Certification Practice Assessment</h2>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">This exam simulator generates practice questions grounded in approved corporate guides. Questions must be cited, and scoring tracks against target role thresholds (e.g. 75% for AZ-204, 80% for AZ-400).</p>
+        </div>
+
+        <!-- Quiz Container -->
+        <div id="quiz-section" class="glass-panel" style="display: none;">
+          <div id="quiz-questions-container" class="assessment-container">
+            <!-- JS questions -->
+          </div>
+          <button id="quiz-submit-btn" class="btn-primary" style="margin-top: 1.5rem; max-width: 250px;">Submit Assessment</button>
+        </div>
+
+        <!-- Quiz Results Panel -->
+        <div id="quiz-results-panel" class="glass-panel" style="display: none;">
+          <div style="text-align: center; margin-bottom: 1.5rem;">
+            <div id="quiz-score-num" style="font-size: 3rem; font-weight: 800; background: linear-gradient(to right, var(--color-primary), var(--color-secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">0%</div>
+            <h3 id="quiz-result-title" style="font-size: 1.25rem; font-weight: 700; margin-top: 0.5rem;">Assessment Completed</h3>
+          </div>
+          <div id="quiz-explanation-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <!-- JS explanation logs -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Tab 3: Manager Analytics Hub -->
+    <div id="manager-portal" class="tab-content">
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        
+        <!-- Stat Cards Row -->
+        <div class="stats-row">
+          <div class="stat-card glass-panel">
+            <div class="stat-num" id="stat-total-learners">0</div>
+            <div class="stat-label">Total Learners Enrolled</div>
+          </div>
+          <div class="stat-card glass-panel">
+            <div class="stat-num" id="stat-pass-rate">0%</div>
+            <div class="stat-label">Certification Pass Rate</div>
+          </div>
+          <div class="stat-card glass-panel">
+            <div class="stat-num" id="stat-study-hours">0</div>
+            <div class="stat-label">Avg Logged Study Hours</div>
+          </div>
+        </div>
+
+        <!-- Risks Alerts & Workforce Readiness Grid -->
+        <div class="dashboard-grid">
+          
+          <!-- Alerts panel -->
+          <div class="glass-panel">
+            <h3 style="font-size: 1.05rem; font-weight: 700; margin-bottom: 1rem; color: var(--color-danger);">Workforce Capacity Alerts</h3>
+            <div id="manager-alerts-list">
+              <!-- JS alerts -->
+            </div>
+          </div>
+
+          <!-- Readiness Table -->
+          <div class="glass-panel">
+            <h3 style="font-size: 1.05rem; font-weight: 700; margin-bottom: 1rem;" class="text-gradient">Overall Workforce Readiness Summary</h3>
+            <table class="semantic-table">
+              <thead>
+                <tr>
+                  <th>Employee Name</th>
+                  <th>Role</th>
+                  <th>Target Cert</th>
+                  <th>Status</th>
+                  <th>Hours & Meeting Load</th>
+                  <th>Capacity Risk</th>
+                </tr>
+              </thead>
+              <tbody id="manager-table-body">
+                <!-- JS table rows -->
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

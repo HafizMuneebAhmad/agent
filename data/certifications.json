@@ -1,0 +1,31 @@
+{
+  "certifications": [
+    {
+      "id": "AZ-204",
+      "name": "Developing Solutions for Microsoft Azure",
+      "role": "Cloud Engineer",
+      "skills": ["API Development", "Azure Functions", "Azure Storage", "Cosmos DB", "App Service", "Azure Security"],
+      "recommended_hours": 20,
+      "difficulty": "Intermediate",
+      "prerequisites": []
+    },
+    {
+      "id": "AZ-400",
+      "name": "Designing and Implementing Microsoft DevOps Solutions",
+      "role": "DevOps Engineer",
+      "skills": ["CI/CD Pipelines", "Monitoring & Logging", "GitHub Actions", "Infrastructure as Code", "Containerization", "Azure Pipelines"],
+      "recommended_hours": 25,
+      "difficulty": "Advanced",
+      "prerequisites": ["AZ-204"]
+    },
+    {
+      "id": "DP-203",
+      "name": "Microsoft Azure Data Engineering",
+      "role": "Data Engineer",
+      "skills": ["Data Warehousing", "Data Lakes", "Azure Synapse", "Azure Databricks", "Stream Analytics", "Data Factory"],
+      "recommended_hours": 22,
+      "difficulty": "Intermediate",
+      "prerequisites": []
+    }
+  ]
+}
