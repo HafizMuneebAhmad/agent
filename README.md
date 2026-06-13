@@ -1,3 +1,5 @@
+# Nexus Learning Orchestrator (Microsoft Foundry Agents)
+---
 ## Demo Video
 
 Watch the complete demonstration here:
@@ -12,13 +14,6 @@ The demo showcases:
 - Assessment workflows
 - Manager insights and analytics
 ---
-## Student Journey
-
-I developed Nexus Learning Orchestrator as a university student participating in the Microsoft Agents League Hackathon. Using Azure for Students and the GitHub Student Developer Pack, I set out to explore how production-grade reasoning agents could solve real-world enterprise challenges.
-
-This project pushed me to learn multi-agent orchestration, reasoning workflows, grounded responses, evaluation strategies, and user-centered design. It represents not only a technical solution, but also my growth as a student engineer building with limited resources and a strong desire to learn.
----
-# Nexus Learning Orchestrator (Microsoft Foundry Agents)
 
 **Nexus Learning Orchestrator** is a multi-agent workforce training optimizer built for Microsoft's "Reasoning Agents with Microsoft Foundry" challenge. It optimizes internal certification paths by orchestrating specialized agents grounded in corporate data, semantic structures, and actual calendar schedules.
 
@@ -74,6 +69,12 @@ This application operates **strictly** using fabricated demonstration data to en
 - Employee Profiles: Arsalan Khan, Zainab Fatima, Hamza Ali (all completely fictional names and credentials).
 - Files: Synthetic engineering guides, workload insights, and training summaries located in the `data/` folder.
 
+---
+## Student Journey
+
+I developed Nexus Learning Orchestrator as a university student participating in the Microsoft Agents League Hackathon. Using Azure for Students and the GitHub Student Developer Pack, I set out to explore how production-grade reasoning agents could solve real-world enterprise challenges.
+
+This project pushed me to learn multi-agent orchestration, reasoning workflows, grounded responses, evaluation strategies, and user-centered design. It represents not only a technical solution, but also my growth as a student engineer building with limited resources and a strong desire to learn.
 ---
 
 ## ⚙️ Setup & Local Running
