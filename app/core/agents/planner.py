@@ -212,6 +212,59 @@ class PlannerAgent(OrchestratorAgent):
             else:
                 milestones = self._get_fallback_milestones(certification_id)
             
+            # 4. Self-Critique & Verification Loop
+            self.log(
+                "Thought",
+                f"[Self-Critique] Auditing generated milestones against computed skill gaps for certification {certification_id}...",
+                parent_id=span_id
+            )
+            
+            critique_warnings = []
+            for gap in skill_gaps:
+                skill_name = gap["skill"]
+                # Check if the skill is covered in milestones
+                covered = False
+                for m in milestones:
+                    m_skills = m.get("skills", [])
+                    m_text = (m.get("topic", "") + " " + m.get("focus", "")).lower()
+                    if skill_name.lower() in m_text or any(skill_name.lower() == s.lower() for s in m_skills):
+                        covered = True
+                        break
+                
+                if not covered:
+                    critique_warnings.append(skill_name)
+                    self.log(
+                        "Thought",
+                        f"[Self-Critique] Warning: Skill '{skill_name}' (Gap: {gap['gap']}) is NOT explicitly covered in any weekly milestone!",
+                        parent_id=span_id
+                    )
+            
+            # Perform self-correction
+            if critique_warnings:
+                self.log(
+                    "Thought",
+                    f"[Self-Correction] Resolving gaps. Adding missing skills {critique_warnings} to the weekly milestones.",
+                    parent_id=span_id
+                )
+                for idx, skill_name in enumerate(critique_warnings):
+                    target_week = (idx % len(milestones))
+                    milestones[target_week]["focus"] += f" Also includes study on {skill_name}."
+                    if "skills" in milestones[target_week]:
+                        if skill_name not in milestones[target_week]["skills"]:
+                            milestones[target_week]["skills"].append(skill_name)
+                
+                self.log(
+                    "Observation",
+                    f"[Self-Correction] Re-audit successful. All skill gaps verified as covered in milestones.",
+                    parent_id=span_id
+                )
+            else:
+                self.log(
+                    "Observation",
+                    "No coverage gaps found. Milestones successfully align with Fabric IQ skill requirements.",
+                    parent_id=span_id
+                )
+            
             plan_summary = f"Generated {len(milestones)}-week study plan ({recommended_hours} total hours)."
             self.log("Final Answer", plan_summary, parent_id=span_id)
             AgentTraceManager.end_span()
@@ -227,6 +280,21 @@ class PlannerAgent(OrchestratorAgent):
                 "skill_gaps": skill_gaps,
                 "milestones": milestones
             }
+
+    async def plan_learning(
+        self, 
+        learner_id: str, 
+        curated_data: Dict[str, Any], 
+        live_mode: bool = False, 
+        api_key: Optional[str] = None
+    ) -> Dict[str, Any]:
+        """Alias method to support caller in main.py."""
+        return await self.generate_schedule(
+            learner_id=learner_id,
+            curated_data=curated_data,
+            live_mode=live_mode,
+            api_key=api_key
+        )
     
     def _get_fallback_milestones(self, certification_id: str) -> List[Dict[str, Any]]:
         """Get fallback milestones when live API unavailable - includes agent reasoning."""

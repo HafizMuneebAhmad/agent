@@ -7,7 +7,7 @@ import logging
 from typing import List, Dict, Any, Optional, Callable
 
 # Microsoft Agent Framework imports
-from agent_framework import Agent, tool
+from agent_framework import Agent, tool, ChatResponse, ChatResponseUpdate, ResponseStream, Message
 from agent_framework.observability import get_tracer
 
 # OpenTelemetry imports for production observability
@@ -18,6 +18,35 @@ from opentelemetry.sdk.resources import Resource
 # Logging
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
+
+
+# ============================================================================
+# MOCK CHAT CLIENT (Used when no Azure AI key is available)
+# ============================================================================
+
+class MockChatClient:
+    """Mock chat client satisfying SupportsChatGetResponse protocol.
+    
+    Used for hackathon demo when no Azure AI / OpenAI key is available.
+    All agent reasoning is handled by deterministic local logic in each agent,
+    so this client is only needed to satisfy the MAF Agent constructor.
+    """
+    
+    additional_properties: dict = {}
+    
+    def get_response(self, messages, *, stream=False, **kwargs):
+        if stream:
+            async def _stream():
+                yield ChatResponseUpdate()
+            return ResponseStream(_stream())
+        else:
+            async def _response():
+                return ChatResponse(messages=[], response_id="mock-local")
+            return _response()
+
+
+# Singleton mock client instance
+_mock_client = MockChatClient()
 
 # ============================================================================
 # OPENTELEMETRY SETUP (Production-Grade Observability)
@@ -123,8 +152,9 @@ class OrchestratorAgent(Agent):
             role_instruction: System prompt
             model: Model name (will use MAF provider abstraction in Phase 2)
         """
-        # Call parent Agent.__init__
+        # Call parent Agent.__init__ with mock client (no Azure AI key available)
         super().__init__(
+            client=_mock_client,
             name=name,
             instructions=role_instruction,
         )

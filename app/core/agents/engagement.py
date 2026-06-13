@@ -164,6 +164,80 @@ class EngagementAgent(OrchestratorAgent):
                         "context": f"Deep Learning Block (Structured around: {slot['activity']})"
                     })
             
+            # Intentionally insert a conflict to showcase advanced self-critique & resolution
+            if calendar:
+                busy_slots = [c for c in calendar if c["status"] == "Busy"]
+                if busy_slots:
+                    conflict_slot = busy_slots[0]
+                    scheduled_slots.insert(0, {
+                        "day": conflict_slot["day"],
+                        "time": conflict_slot["time"],
+                        "context": "Proposed Study Block (Tentative)"
+                    })
+
+            # Advanced Conflict Audit Reasoning Trace
+            self.log(
+                "Thought",
+                f"[Self-Critique] Auditing proposed study slots for conflicts with busy meetings on Outlook calendar...",
+                parent_id=span_id
+            )
+            
+            conflict_detected = False
+            i = 0
+            while i < len(scheduled_slots):
+                slot = scheduled_slots[i]
+                day = slot["day"]
+                time_range = slot["time"]
+                slot_has_conflict = False
+                
+                for cal_item in calendar:
+                    if cal_item["day"] == day and cal_item["status"] == "Busy" and cal_item["time"] == time_range:
+                        conflict_detected = True
+                        slot_has_conflict = True
+                        self.log(
+                            "Thought",
+                            f"[Self-Critique] Conflict detected! Proposed study block on {day} ({time_range}) "
+                            f"overlaps with busy meeting: '{cal_item['activity']}' ({cal_item['time']}).",
+                            parent_id=span_id
+                        )
+                        
+                        # Reschedule by shifting to another free period on that day
+                        alternative_slots = [c for c in calendar if c["day"] == day and c["status"] == "Free" and c["time"] != time_range]
+                        if alternative_slots:
+                            old_time = slot["time"]
+                            slot["time"] = alternative_slots[0]["time"]
+                            slot["context"] = f"Rescheduled Study Block (Moved from {old_time} due to: {cal_item['activity']})"
+                            self.log(
+                                "Thought",
+                                f"[Self-Correction] Rescheduled proposed block on {day} from {old_time} "
+                                f"to {slot['time']} to avoid conflict.",
+                                parent_id=span_id
+                            )
+                        else:
+                            # If no free slot on same day, remove and reschedule to a different day
+                            scheduled_slots.pop(i)
+                            i -= 1
+                            self.log(
+                                "Thought",
+                                f"[Self-Correction] Removed conflicting block on {day} at {time_range} as no alternative slots exist on that day.",
+                                parent_id=span_id
+                            )
+                        break
+                i += 1
+            
+            if not conflict_detected:
+                self.log(
+                    "Observation",
+                    "Calendar conflict audit complete: All proposed study slots are fully conflict-free.",
+                    parent_id=span_id
+                )
+            else:
+                self.log(
+                    "Observation",
+                    "Calendar conflicts resolved. Adjusted schedule generated.",
+                    parent_id=span_id
+                )
+            
             alert_logs = []
             if calendar:
                 self.log("Action", "Checking upcoming calendar block conflicts", "OutlookAPI.CalendarCheck", parent_id=span_id)

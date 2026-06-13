@@ -181,7 +181,7 @@ async def resume_workflow(req: ResumeRequest):
             planner = PlannerAgent()
             plan_output = await planner.plan_learning(
                 learner_id=session["learner_id"],
-                curator_data=session["curator_output"],
+                curated_data=session["curator_output"],
                 live_mode=req.live_mode,
                 api_key=req.api_key
             )
@@ -198,9 +198,54 @@ async def resume_workflow(req: ResumeRequest):
                 "traces": AgentTraceManager.get_traces()
             }
         
+        elif current_step == "planner_complete":
+            # Phase 2: Run Engagement → Assessment → Manager in sequence
+            planner_output = session.get("planner_output", {})
+            
+            # Engagement Agent: schedule learning blocks
+            engagement = EngagementAgent()
+            engagement_output = await engagement.apply_work_context(
+                planner_output=planner_output,
+                live_mode=req.live_mode,
+                api_key=req.api_key
+            )
+            WorkflowSessionManager.update_session(req.session_id, {
+                "engagement_output": engagement_output
+            })
+            
+            # Assessment Agent: pre-generate practice test
+            assessment = AssessmentAgent()
+            assessment_output = await assessment.generate_assessment(
+                certification_id=session["certification_id"]
+            )
+            WorkflowSessionManager.update_session(req.session_id, {
+                "assessment_output": assessment_output
+            })
+            
+            # Manager Insights Agent: compile analytics
+            manager = ManagerInsightsAgent()
+            manager_output = await manager.generate_team_insights()
+            WorkflowSessionManager.update_session(req.session_id, {
+                "status": "completed",
+                "manager_output": manager_output
+            })
+            
+            return {
+                "success": True,
+                "session_id": req.session_id,
+                "status": "completed",
+                "current_step": "all_complete",
+                "engagement_output": engagement_output,
+                "assessment_output": assessment_output,
+                "manager_output": manager_output,
+                "traces": AgentTraceManager.get_traces()
+            }
+        
         else:
             raise HTTPException(status_code=400, detail=f"Cannot resume from: {current_step}")
         
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Resume failed: {str(e)}")
 
@@ -242,10 +287,10 @@ async def submit_practice_test(req: SubmissionRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/api/manager/insights")
-def get_manager_insights():
+async def get_manager_insights():
     manager_agent = ManagerInsightsAgent()
     try:
-        insights = manager_agent.generate_team_insights()
+        insights = await manager_agent.generate_team_insights()
         return {
             "success": True,
             "logs": [],
